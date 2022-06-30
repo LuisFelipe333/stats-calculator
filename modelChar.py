@@ -7,18 +7,18 @@ class CharRequestModel(BaseModel):
     base_atk: int
     base_def: int
     base_em: int
-    base_ctr: int
-    base_ctd: int
-    healing_bonus_base:int
-    energy_recharge_base:int
-    pyro_dmg_base:int
-    hydro_dmg_base:int
-    electro_dmg_base:int
-    anemo_dmg_base:int
-    cryo_dmg_base:int
-    geo_dmg_base:int
-    dendro_dmg_base:int
-    phys_dmg_base:int
+    base_ctr: float
+    base_ctd: float
+    healing_bonus_base:float
+    energy_recharge_base:float
+    pyro_dmg_base:float
+    hydro_dmg_base:float
+    electro_dmg_base:float
+    anemo_dmg_base:float
+    cryo_dmg_base:float
+    geo_dmg_base:float
+    dendro_dmg_base:float
+    phys_dmg_base:float
     
     weapon_atk_base:int
     weapon_secondary_stat:int

@@ -15,26 +15,11 @@ def index():
 @app.post('/char')
 def calculate_char(char: CharRequestModel):
     
-    return calculate_stats(char)
+    return char.name
 
 def calculate_stats(char: CharRequestModel):
-    statics_to_add=[0]*20
-    hp=char.base_hp
-    atk=char.base_atk+char.weapon_atk_base
-    defense=char.base_def
-    em=char.base_em
-    ctr=char.base_ctr
-    ctd=char.base_ctd
-    healing_bonus=char.healing_bonus_base
-    energy_recharge=char.energy_recharge_base
-    pyro_dmg=char.pyro_dmg_base
-    hydro_dmg=char.hydro_dmg_base
-    electro_dmg=char.electro_dmg_base
-    anemo_dmg=char.anemo_dmg_base
-    cryo_dmg=char.cryo_dmg_base
-    geo_dmg=char.geo_dmg_base
-    dendro_dmg=char.dendro_dmg_base
-    phys_dmg=char.phys_dmg_base
+    statics_to_add=[20]
+    finish_statics=[16]
     
     
     if(char.art1_type!=0):
@@ -85,15 +70,13 @@ def calculate_stats(char: CharRequestModel):
         if(char.art4_stat4!=0):
             statics_to_add[char.art4_stat4]+=char.art4_stat4_value
     
-    hp=hp*(1+(statics_to_add[2]/100))
+    hp=hp*(statics_to_add[2])
     hp=hp+statics_to_add[1]
     
-    atk=atk*(1+(statics_to_add[4]/100))
+    atk=atk*(statics_to_add[4])
     atk=atk+statics_to_add[3]
     
-    print(statics_to_add[5])
-    print(statics_to_add[6])
-    defense=defense*(1+(statics_to_add[6]/100))
+    defense=defense*(statics_to_add[6])
     defense=defense+statics_to_add[5]
     em=em+statics_to_add[7]
     ctr=ctr+statics_to_add[8]
