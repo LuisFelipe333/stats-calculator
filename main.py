@@ -183,7 +183,7 @@ def get_db():
         db.close()
 
 
-@app.get('/get_characterrs', response_model=list[schemas.Character])
+@app.get('/get_characters', response_model=list[schemas.Character])
 def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
     items = Operations.get_characters(db, skip=skip, limit=limit)
     return items
