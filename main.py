@@ -1,7 +1,10 @@
-import string
 from matplotlib.pyplot import title
-from fastapi import FastAPI
+from fastapi import Depends, FastAPI
+from sqlalchemy.orm import Session
 
+from database import SessionLocal
+from operations import Operations
+import schemas
 from modelChar import CharRequestModel
 
 app= FastAPI(title="Statistics calculator",
@@ -169,3 +172,28 @@ def calculate_stats(char: CharRequestModel):
 # geo_dmg:17
 # dendro_dmg:18
 # phys_dmg:19
+
+
+# Dependency
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+@app.get('/get_characterrs', response_model=list[schemas.Character])
+def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+    items = Operations.get_characters(db, skip=skip, limit=limit)
+    return items
+
+@app.get('/get_weapons', response_model=list[schemas.Weapon])
+def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+    items = Operations.get_weapons(db, skip=skip, limit=limit)
+    return items
+
+@app.get('/get_artifacts', response_model=list[schemas.Artifact])
+def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+    items = Operations.get_artifacts(db, skip=skip, limit=limit)
+    return items
