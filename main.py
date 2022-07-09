@@ -197,3 +197,8 @@ def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db
 def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
     items = Operations.get_artifacts(db, skip=skip, limit=limit)
     return items
+
+@app.get('/get_statistics', response_model=list[schemas.Statistic])
+def get_statistics(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+    items = Operations.get_statistics(db, skip=skip, limit=limit)
+    return items

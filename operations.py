@@ -12,5 +12,6 @@ class Operations:
 
     def get_artifacts(db:Session, skip:int = 0, limit:int = 200):
         return db.query(models.Artifact).offset(skip).limit(limit).all()
-
-
+    
+    def get_statistics(db:Session, skip:int = 0, limit:int = 200):
+        return db.query(models.Statistic).offset(skip).limit(limit).all()

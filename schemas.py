@@ -12,6 +12,9 @@ class CharacterBase(BaseModel):
     name:str
     image_url:str
 
+class StatisticBase(BaseModel):
+    name:str
+
 class Weapon(WeaponBase):
     id:int
     class Config:
@@ -23,6 +26,11 @@ class Artifact(ArtifactBase):
         orm_mode = True
         
 class Character(CharacterBase):
+    id:int
+    class Config:
+        orm_mode = True
+
+class Statistic(StatisticBase):
     id:int
     class Config:
         orm_mode = True
