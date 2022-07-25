@@ -1,3 +1,4 @@
+from distutils.log import debug
 from matplotlib.pyplot import title
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
@@ -112,6 +113,78 @@ def calculate_stats(char: CharRequestModel):
     dendro_dmg=dendro_dmg+statics_to_add[18]
     phys_dmg=phys_dmg+statics_to_add[19]
     
+    #obtener los datos de talentos y elemento del personaje
+
+
+    element=0
+    base_stat=[1,1,1]
+    talent_damage=[100,8.77,8.77]
+    
+    #en base al tipo de artefacto obtengo los bonus extras
+    
+    ult_bonus=20  
+    
+    
+    
+    # stats for talent damage
+    # "hp": 0
+    # "atk": 1
+    # "def": 2
+    # "em": 3
+    # "healing_bonus": 4
+    # "energy_recharge": 5
+
+    #damage arrays
+    prom_damage = [0]*3
+    normal_damage = [0]*3
+    crit_damage = [0]*3
+
+
+    #damage calculatin start
+    talent_damage_base=[0]*3
+    for i in range (3):
+        talent_damage_base[i]=atk*(talent_damage[i]/100)
+    print(talent_damage[1])
+    print(talent_damage_base[1])   
+    bonus_damage=0
+    # if(char.talentNumber==2):
+    #     bonus_damage+=char.ult_bonus/100
+        
+        
+    if(element==0):
+        bonus_damage+=pyro_dmg/100
+    elif(element==1):
+        bonus_damage+=hydro_dmg/100
+    elif(element==2):
+        bonus_damage+=electro_dmg/100
+    elif(element==3):
+        bonus_damage+=anemo_dmg/100
+    elif(element==4):
+        bonus_damage+=cryo_dmg/100
+    elif(element==5):
+        bonus_damage+=geo_dmg/100
+    elif(element==6):
+        bonus_damage+=dendro_dmg/100
+    elif(element==7):
+        bonus_damage+=phys_dmg/100
+      
+    talent_crit_damage=[0]*3    
+    talent_prom_damage=[0]*3
+    
+    for i in range (3):
+        if(i==2):
+            talent_damage_base[i]=talent_damage_base[i]*(1+(bonus_damage+ult_bonus))
+        elif(i==0):
+            talent_damage_base[i]=talent_damage_base[i]*(1+bonus_damage)
+        
+        talent_crit_damage[i]=talent_damage_base[i]*(1+(ctd/100))
+        talent_prom_damage[i]=talent_damage_base[i]*(1+((ctd/100)*(ctr/100)))
+        
+    
+        
+    
+        
+    
     statics_json={
         "hp": hp,
         "atk": atk,
@@ -129,6 +202,15 @@ def calculate_stats(char: CharRequestModel):
         "geo_dmg": geo_dmg,
         "dendro_dmg": dendro_dmg,
         "phys_dmg": phys_dmg,
+        "talent1_normal_damage": talent_damage_base[0],
+        "talent1_crit_damage": talent_crit_damage[0],
+        "talent1_prom_damage": talent_prom_damage[0],
+        "talent2_normal_damage": talent_damage_base[1],
+        "talent2_crit_damage": talent_crit_damage[1],
+        "talent2_prom_damage": talent_prom_damage[1],
+        "talent3_normal_damage": talent_damage_base[2],
+        "talent3_crit_damage": talent_crit_damage[2],
+        "talent3_prom_damage": talent_prom_damage[2],
     }
     
     return statics_json
