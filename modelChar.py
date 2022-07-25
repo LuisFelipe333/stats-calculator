@@ -3,28 +3,9 @@ from pydantic import BaseModel
 
 class CharRequestModel(BaseModel):
     name:int
-    base_hp:int
-    base_atk: int
-    base_def: int
-    base_em: int
-    base_ctr: float
-    base_ctd: float
-    healing_bonus_base:float
-    energy_recharge_base:float
-    pyro_dmg_base:float
-    hydro_dmg_base:float
-    electro_dmg_base:float
-    anemo_dmg_base:float
-    cryo_dmg_base:float
-    geo_dmg_base:float
-    dendro_dmg_base:float
-    phys_dmg_base:float
     
-    weapon_atk_base:int
-    weapon_secondary_stat:int
-    weapon_secondary_stat_value:float
-    extras_for_passive1:Optional[float]=0
-    extras_for_passive1:Optional[float]=0
+    
+    weapon_id:int
     
     art1_type:Optional[int]=0
     art1_main_stat:Optional[int]=0

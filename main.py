@@ -23,95 +23,83 @@ def calculate_char(char: CharRequestModel):
 
 def calculate_stats(char: CharRequestModel):
     statics_to_add=[0]*20
-    hp=char.base_hp
-    atk=char.base_atk+char.weapon_atk_base
-    defense=char.base_def
-    em=char.base_em
-    ctr=char.base_ctr
-    ctd=char.base_ctd
-    healing_bonus=char.healing_bonus_base
-    energy_recharge=char.energy_recharge_base
-    pyro_dmg=char.pyro_dmg_base
-    hydro_dmg=char.hydro_dmg_base
-    electro_dmg=char.electro_dmg_base
-    anemo_dmg=char.anemo_dmg_base
-    cryo_dmg=char.cryo_dmg_base
-    geo_dmg=char.geo_dmg_base
-    dendro_dmg=char.dendro_dmg_base
-    phys_dmg=char.phys_dmg_base
+    char_id=char.name
+    basehp=[10875,13226,10899]
+    baseatk=[212,251,234]
+    basedef=[683,876,676]
+    # basectr=[5,5,5]
+    # basecd=[50,50,50]
+    
+    weapon_id=char.weapon_id
+    baseweaponatk=[565,585,535]
+    hp=basehp[char_id]
+    atk=baseatk[char_id]+baseweaponatk[weapon_id]
+    defense=basedef[char_id]
+    em=0
+    ctr=50
+    ctd=50
+    healing_bonus=0
+    energy_recharge=0
+    pyro_dmg=0
+    hydro_dmg=0
+    electro_dmg=0
+    anemo_dmg=0
+    cryo_dmg=0
+    geo_dmg=0
+    dendro_dmg=0
+    phys_dmg=0
     
     
     if(char.art1_type!=0):
-        if(char.art1_main_stat!=0):
-            statics_to_add[char.art1_main_stat]+=char.art1_main_stat_value
-        if(char.art1_stat1!=0):
-            statics_to_add[char.art1_stat1]+=char.art1_stat1_value
-        if(char.art1_stat2!=0):
-            statics_to_add[char.art1_stat2]+=char.art1_stat2_value
-        if(char.art1_stat3!=0):
-            statics_to_add[char.art1_stat3]+=char.art1_stat3_value
-        if(char.art1_stat4!=0):
-            statics_to_add[char.art1_stat4]+=char.art1_stat4_value
+        statics_to_add[char.art1_main_stat]+=char.art1_main_stat_value
+        statics_to_add[char.art1_stat1]+=char.art1_stat1_value
+        statics_to_add[char.art1_stat2]+=char.art1_stat2_value
+        statics_to_add[char.art1_stat3]+=char.art1_stat3_value
+        statics_to_add[char.art1_stat4]+=char.art1_stat4_value
             
     if(char.art2_type!=0):
-        if(char.art2_main_stat!=0):
-            statics_to_add[char.art2_main_stat]+=char.art2_main_stat_value
-        if(char.art2_stat1!=0):
-            statics_to_add[char.art2_stat1]+=char.art2_stat1_value
-        if(char.art2_stat2!=0):
-            statics_to_add[char.art2_stat2]+=char.art2_stat2_value
-        if(char.art2_stat3!=0):
-            statics_to_add[char.art2_stat3]+=char.art2_stat3_value
-        if(char.art2_stat4!=0):
-            statics_to_add[char.art2_stat4]+=char.art2_stat4_value
+        statics_to_add[char.art2_main_stat]+=char.art2_main_stat_value
+        statics_to_add[char.art2_stat1]+=char.art2_stat1_value
+        statics_to_add[char.art2_stat2]+=char.art2_stat2_value
+        statics_to_add[char.art2_stat3]+=char.art2_stat3_value
+        statics_to_add[char.art2_stat4]+=char.art2_stat4_value
     
     if(char.art3_type!=0):
-        if(char.art3_main_stat!=0):
-            statics_to_add[char.art3_main_stat]+=char.art3_main_stat_value
-        if(char.art3_stat1!=0):
-            statics_to_add[char.art3_stat1]+=char.art3_stat1_value
-        if(char.art3_stat2!=0):
-            statics_to_add[char.art3_stat2]+=char.art3_stat2_value
-        if(char.art3_stat3!=0):
-            statics_to_add[char.art3_stat3]+=char.art3_stat3_value
-        if(char.art3_stat4!=0):
-            statics_to_add[char.art3_stat4]+=char.art3_stat4_value
+        statics_to_add[char.art3_main_stat]+=char.art3_main_stat_value
+        statics_to_add[char.art3_stat1]+=char.art3_stat1_value
+        statics_to_add[char.art3_stat2]+=char.art3_stat2_value
+        statics_to_add[char.art3_stat3]+=char.art3_stat3_value
+        statics_to_add[char.art3_stat4]+=char.art3_stat4_value
     
-    if(char.art4_type!=0):
-        if(char.art4_main_stat!=0):
-            statics_to_add[char.art4_main_stat]+=char.art4_main_stat_value
-        if(char.art4_stat1!=0):
-            statics_to_add[char.art4_stat1]+=char.art4_stat1_value
-        if(char.art4_stat2!=0):
-            statics_to_add[char.art4_stat2]+=char.art4_stat2_value
-        if(char.art4_stat3!=0):
-            statics_to_add[char.art4_stat3]+=char.art4_stat3_value
-        if(char.art4_stat4!=0):
-            statics_to_add[char.art4_stat4]+=char.art4_stat4_value
+    if(char.art4_type!=0): 
+        statics_to_add[char.art4_main_stat]+=char.art4_main_stat_value
+        statics_to_add[char.art4_stat1]+=char.art4_stat1_value
+        statics_to_add[char.art4_stat2]+=char.art4_stat2_value
+        statics_to_add[char.art4_stat3]+=char.art4_stat3_value
+        statics_to_add[char.art4_stat4]+=char.art4_stat4_value
     
-    hp=hp*(1+(statics_to_add[2]/100))
-    hp=hp+statics_to_add[1]
+    hp=hp*(1+(statics_to_add[3]/100))
+    hp=hp+statics_to_add[2]
     
-    atk=atk*(1+(statics_to_add[4]/100))
-    atk=atk+statics_to_add[3]
+    atk=atk*(1+(statics_to_add[1]/100))
+    atk=atk+statics_to_add[0]
     
     print(statics_to_add[5])
     print(statics_to_add[6])
-    defense=defense*(1+(statics_to_add[6]/100))
-    defense=defense+statics_to_add[5]
-    em=em+statics_to_add[7]
-    ctr=ctr+statics_to_add[8]
-    ctd=ctd+statics_to_add[9]
-    healing_bonus=healing_bonus+statics_to_add[10]
-    energy_recharge=energy_recharge+statics_to_add[11]
-    pyro_dmg=pyro_dmg+statics_to_add[12]
-    hydro_dmg=hydro_dmg+statics_to_add[13]
-    electro_dmg=electro_dmg+statics_to_add[14]
-    anemo_dmg=anemo_dmg+statics_to_add[15]
-    cryo_dmg=cryo_dmg+statics_to_add[16]
-    geo_dmg=geo_dmg+statics_to_add[17]
-    dendro_dmg=dendro_dmg+statics_to_add[18]
-    phys_dmg=phys_dmg+statics_to_add[19]
+    defense=defense*(1+(statics_to_add[5]/100))
+    defense=defense+statics_to_add[4]
+    em=em+statics_to_add[6]
+    ctr=ctr+statics_to_add[17]
+    ctd=ctd+statics_to_add[16]
+    healing_bonus=healing_bonus+statics_to_add[15]
+    energy_recharge=energy_recharge+statics_to_add[7]
+    pyro_dmg=pyro_dmg+statics_to_add[8]
+    hydro_dmg=hydro_dmg+statics_to_add[10]
+    electro_dmg=electro_dmg+statics_to_add[11]
+    anemo_dmg=anemo_dmg+statics_to_add[12]
+    cryo_dmg=cryo_dmg+statics_to_add[9]
+    geo_dmg=geo_dmg+statics_to_add[13]
+    phys_dmg=phys_dmg+statics_to_add[14]
     
     #obtener los datos de talentos y elemento del personaje
 
