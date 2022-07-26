@@ -188,7 +188,6 @@ def calculate_stats(char: CharRequestModel):
         "anemo_dmg": anemo_dmg,
         "cryo_dmg": cryo_dmg,
         "geo_dmg": geo_dmg,
-        "dendro_dmg": dendro_dmg,
         "phys_dmg": phys_dmg,
         "talent1_normal_damage": talent_damage_base[0],
         "talent1_crit_damage": talent_crit_damage[0],
@@ -202,6 +201,7 @@ def calculate_stats(char: CharRequestModel):
     }
     
     return statics_json
+
 
 
 #CHARACTER
@@ -219,8 +219,16 @@ def calculate_stats(char: CharRequestModel):
 # "anemo_dmg": 11
 # "cryo_dmg": 12
 # "geo_dmg": 13
-# "dendro_dmg": 14
-# "phys_dmg": 15
+# "phys_dmg": 14
+
+#elements
+#pyro = 0
+#hydro = 1
+#electro = 2
+#anemo = 3
+#cryo = 4
+#geo = 5
+#phys = 6
 
 #ARTIFACTS
 # flat_hp:1
@@ -240,8 +248,7 @@ def calculate_stats(char: CharRequestModel):
 # anemo_dmg:15
 # cryo_dmg:16
 # geo_dmg:17
-# dendro_dmg:18
-# phys_dmg:19
+# phys_dmg:18
 
 
 # Dependency
