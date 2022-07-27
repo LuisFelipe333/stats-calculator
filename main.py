@@ -1,12 +1,14 @@
 from distutils.log import debug
 from matplotlib.pyplot import title
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, APIRouter
 from sqlalchemy.orm import Session
+from sqlalchemy import select
 
-from database import SessionLocal
+from database import SessionLocal, conn
 from operations import Operations
 import schemas
 from modelChar import CharRequestModel
+from models import characterTable
 
 app= FastAPI(title="Statistics calculator",
              description= "Calculate the stats of the characters based on their weapon and artifacts",
@@ -14,7 +16,13 @@ app= FastAPI(title="Statistics calculator",
 
 @app.get('/')
 def index():
-    return "a"
+    return conn.execute(characterTable.select()).fetchall()
+
+@app.get('/{id}')
+def index():
+    return conn.execute(characterTable.select().where(characterTable.c.id==id)).first()
+    
+   
 
 @app.post('/char')
 def calculate_char(char: CharRequestModel):
@@ -22,19 +30,21 @@ def calculate_char(char: CharRequestModel):
     return calculate_stats(char)
 
 def calculate_stats(char: CharRequestModel):
+    
+    #return conn.execute(characterTable.select().where(characterTable.c.id==char.name)).first()
+    character=conn.execute(characterTable.select().where(characterTable.c.id==char.name)).first()
     statics_to_add=[0]*20
     char_id=char.name
-    basehp=[10875,13226,10899]
-    baseatk=[212,251,234]
-    basedef=[683,876,676]
+    
+    baseatk=character.base_atk
     # basectr=[5,5,5]
     # basecd=[50,50,50]
     
     weapon_id=char.weapon_id
-    baseweaponatk=[565,585,535]
-    hp=basehp[char_id]
-    atk=baseatk[char_id]+baseweaponatk[weapon_id]
-    defense=basedef[char_id]
+    baseweaponatk=560
+    hp=character.base_hp
+    atk=baseatk+baseweaponatk
+    defense=character.base_def
     em=0
     ctr=50
     ctd=50
@@ -49,6 +59,7 @@ def calculate_stats(char: CharRequestModel):
     dendro_dmg=0
     phys_dmg=0
     
+    statics_to_add[character.extra_stat]+=character.extra_stat_value
     
     if(char.art1_type!=0):
         statics_to_add[char.art1_main_stat]+=char.art1_main_stat_value
@@ -104,9 +115,9 @@ def calculate_stats(char: CharRequestModel):
     #obtener los datos de talentos y elemento del personaje
 
 
-    element=0
+    element=character.element
     base_stat=[1,1,1]
-    talent_damage=[100,8.77,8.77]
+    talent_damage=[character.talent1_damage,character.talent2_damage,character.talent3_damage]
     
     #en base al tipo de artefacto obtengo los bonus extras
     
@@ -266,16 +277,21 @@ def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db
     return items
 
 @app.get('/get_weapons', response_model=list[schemas.Weapon])
-def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+def get_weapons(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
     items = Operations.get_weapons(db, skip=skip, limit=limit)
     return items
 
 @app.get('/get_artifacts', response_model=list[schemas.Artifact])
-def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+def get_artifacts(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
     items = Operations.get_artifacts(db, skip=skip, limit=limit)
     return items
 
 @app.get('/get_statistics', response_model=list[schemas.Statistic])
 def get_statistics(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
     items = Operations.get_statistics(db, skip=skip, limit=limit)
+    return items
+
+@app.get('/get_character_statistics', response_model=list[schemas.Statistic])
+def get_character_statistics(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
+    items = Operations.get_character_statistics(db, skip=skip, limit=limit)
     return items

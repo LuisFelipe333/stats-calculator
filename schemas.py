@@ -14,6 +14,18 @@ class CharacterBase(BaseModel):
 
 class StatisticBase(BaseModel):
     name:str
+    
+class CharacterStatisticBase(BaseModel):
+    base_hp:int
+    base_atk:int
+    base_def:int
+    extra_stat:int
+    extra_stat_value:float
+    element:int
+    talent1_damage:float
+    talent2_damage:float
+    talent3_damage:float
+    
 
 class Weapon(WeaponBase):
     id:int
