@@ -57,4 +57,13 @@ characterTable = Table(
     Column("talent3_damage", Float),
 )
 
+character = Table(
+    "game_character",
+    meta,
+    Column("id",Integer, primary_key=True),
+    Column("name",String(255)),
+    Column("image_url",String(255)),
+)
+
+
 meta.create_all(engine)

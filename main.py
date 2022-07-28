@@ -8,7 +8,7 @@ from database import SessionLocal, conn
 from operations import Operations
 import schemas
 from modelChar import CharRequestModel
-from models import characterTable
+from models import characterTable,character
 
 app= FastAPI(title="Statistics calculator",
              description= "Calculate the stats of the characters based on their weapon and artifacts",
@@ -271,10 +271,13 @@ def get_db():
         db.close()
 
 
-@app.get('/get_characters', response_model=list[schemas.Character])
-def get_characters(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
-    items = Operations.get_characters(db, skip=skip, limit=limit)
-    return items
+@app.get('/get_characters')
+def get_characters():
+    return conn.execute(character.select()).fetchall()
+
+# @app.get('/')
+# def index():
+#     return conn.execute(characterTable.select()).fetchall()
 
 @app.get('/get_weapons', response_model=list[schemas.Weapon])
 def get_weapons(skip: int = 0, limit: int = 200, db: Session = Depends(get_db)):
